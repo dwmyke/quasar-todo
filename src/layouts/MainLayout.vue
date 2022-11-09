@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh LpR fFr">
+    <q-header reveal elevated class="bg-primary text-white" height-hint="98">
       <q-toolbar>
         <q-btn
           flat
@@ -12,17 +12,34 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          <q-avatar>
+            <img src="~/assets/logo.svg">
+          </q-avatar>
+          Mikel-Jon (Mike) West
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn
+        dense
+        flat
+        round
+        icon="menu"
+        aria-label="Menu"
+        @click="toggleRightDrawer" />
       </q-toolbar>
+
+      <q-tabs align="left">
+        <q-route-tab to="/contact" label="Contact" />
+        <q-route-tab to="/about" label="About" />
+        <q-route-tab to="/page3" label="Page Three" />
+      </q-tabs>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
       bordered
+      side="left"
+      behavior="desktop"
     >
       <q-list>
         <q-item-label
@@ -30,6 +47,8 @@
         >
           Essential Links
         </q-item-label>
+
+        <LeftMenuList />
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -39,15 +58,37 @@
       </q-list>
     </q-drawer>
 
+    <q-drawer
+    v-model="rightDrawerOpen"
+    side="right"
+    overlay
+    behavior="desktop"
+    bordered>
+      <!-- drawer content -->
+    </q-drawer>
+
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer reveal class="bg-grey-8 text-white">
+      <q-toolbar>
+        <q-toolbar-title>
+          <q-avatar>
+            <img src="~/assets/logo.svg">
+          </q-avatar>
+          <div>Title</div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
+
   </q-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
+import LeftMenuList from 'layouts/LeftMenuList.vue';
 
 const linksList = [
   {
@@ -103,12 +144,18 @@ export default defineComponent({
 
   setup () {
     const leftDrawerOpen = ref(false)
+    const rightDrawerOpen = ref(false)
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
+      },
+
+      rightDrawerOpen,
+      toggleRightDrawer () {
+        rightDrawerOpen.value = !rightDrawerOpen.value
       }
     }
   }
