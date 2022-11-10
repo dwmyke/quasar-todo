@@ -6,18 +6,15 @@
       </q-card-section>
       <q-card-section>
         <q-input
-        filled
         v-model="form.email"
-
+        filled
         label="Email Address"
         class="q-mb-md"
-
         />
         <q-input
         v-model="form.message"
         filled
         label="Message"
-
         />
       </q-card-section>
 
